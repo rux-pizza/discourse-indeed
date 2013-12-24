@@ -27,8 +27,8 @@ Discourse.IndeedButtonView = Discourse.View.extend({
     @method render
   **/
   render: function(buffer) {
-    buffer.push('<i class="fa fa-indeed-right"></i>&nbsp;&nbsp;');
-    buffer.push(I18n.t("post.indeed_reply"));
+    buffer.push('<i class="fa fa-thumbs-up"></i>&nbsp;&nbsp;');
+    buffer.push('indeed');
   },
 
   /**

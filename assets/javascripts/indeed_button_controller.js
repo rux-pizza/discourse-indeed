@@ -8,6 +8,7 @@
   @namespace Discourse
   @module Discourse
 **/
+
 Discourse.IndeedButtonController = Discourse.Controller.extend({
   needs: ['topic', 'composer'],
 
@@ -85,7 +86,7 @@ Discourse.IndeedButtonController = Discourse.Controller.extend({
     Em.run.schedule('afterRender', function() {
       $indeedButton.offset({
         top: markerOffset.top - $indeedButton.outerHeight() - 5,
-        left: markerOffset.left
+        left: markerOffset.left + 150
       });
     });
   },
@@ -116,13 +117,18 @@ Discourse.IndeedButtonController = Discourse.Controller.extend({
     }
 
     var buffer = this.get('buffer');
-    var indeeddText = Discourse.Indeed.build(post, buffer);
-    composerOpts.indeed = indeeddText;
+    var indeeddText = Discourse.Quote.build(post, buffer)+'indeed';
+    composerOpts.quote = indeeddText;
     if (composerController.get('content.viewOpen') || composerController.get('content.viewDraft')) {
       composerController.appendText(indeeddText);
     } else {
-      composerController.open(composerOpts);
+      composerController.open(composerOpts).then(
+              function(){
+                  composerController.save()
+              }
+          );
     }
+
     this.set('buffer', '');
     return false;
   },
