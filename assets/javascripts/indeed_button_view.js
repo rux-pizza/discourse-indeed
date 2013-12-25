@@ -111,3 +111,10 @@ Discourse.IndeedButtonView = Discourse.View.extend({
   }
 
 });
+
+
+Discourse.TopicFooterButtonsView.reopen({
+  addIndeedButton: function() {
+    this.attachViewClass(Discourse.IndeedButtonView);
+  }.on("additionalButtons")
+});
