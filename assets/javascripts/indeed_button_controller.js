@@ -122,11 +122,7 @@ Discourse.IndeedButtonController = Discourse.Controller.extend({
     if (composerController.get('content.viewOpen') || composerController.get('content.viewDraft')) {
       composerController.appendText(indeeddText);
     } else {
-      composerController.open(composerOpts).then(
-              function(){
-                  composerController.save()
-              }
-          );
+      composerController.open(composerOpts);
     }
 
     this.set('buffer', '');

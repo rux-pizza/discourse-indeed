@@ -111,3 +111,4 @@ Discourse.IndeedButtonView = Discourse.View.extend({
   }
 
 });
+
