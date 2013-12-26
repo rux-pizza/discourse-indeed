@@ -1,6 +1,6 @@
 # name: Indeed this!
 # about: Indeed up anything.
-# version: 0.1
+# version: 0.2
 # authors: David Montoya
 
 # Indeed Button
