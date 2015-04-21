@@ -5,3 +5,5 @@ en:
       text: "indeed"
     empty_reply:
       action: 'reply with an empty post'
+      error:
+        composer_open: 'Error: cannot empty-reply while you have post draft in progress. Please close or finish your draft first.'

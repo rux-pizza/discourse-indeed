@@ -12,7 +12,7 @@ export default topicController.reopen({
 
     if (composerController.get('content.topic.id') === topic.get('id') &&
       composerController.get('content.action') === Discourse.Composer.REPLY) {
-      bootbox.alert('Error: cannot empty-reply while you have post draft in progress. Please close or finish your draft first.');
+      bootbox.alert(I18n.t('empty_reply.error.composer_open'));
       return false;
     } else {
 
