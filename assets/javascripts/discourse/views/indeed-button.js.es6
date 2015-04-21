@@ -1,5 +1,5 @@
 export default Discourse.View.extend({
-  classNames: ['quote-button'],
+  classNames: ['indeed-button'],
   classNameBindings: ['visible'],
   isMouseDown: false,
   isTouchInProgress: false,
@@ -16,8 +16,8 @@ export default Discourse.View.extend({
 
   /**
    Binds to the following global events:
-   - `mousedown` to clear the quote button if they click elsewhere.
-   - `mouseup` to trigger the display of the quote button.
+   - `mousedown` to clear the indeed button if they click elsewhere.
+   - `mouseup` to trigger the display of the indeed button.
    - `selectionchange` to make the selection work under iOS
 
    @method didInsertElement

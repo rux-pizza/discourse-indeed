@@ -4,7 +4,7 @@ export default QuoteButtonController.extend({
 
   // Save the currently selected text and displays the
   //  "indeed reply" button
-  selectText(postId) {
+  selectText: function(postId) {
     // anonymous users cannot "quote-reply"
     if (!this.currentUser) return;
 
@@ -61,7 +61,7 @@ export default QuoteButtonController.extend({
     // move the indeed button above the marker
     Em.run.schedule('afterRender', function() {
       let topOff = markerOffset.top;
-      let leftOff = markerOffset.left + 100;
+      let leftOff = markerOffset.left + 120;
 
       if (Discourse.Mobile.isMobileDevice) {
         topOff = topOff + 20;
@@ -74,9 +74,43 @@ export default QuoteButtonController.extend({
     });
   },
 
-  indeedText() {
-    this.quoteText();
-    composerController = this.get('controllers.composer');
-    composerController.appendText(I18n.t('indeed_reply.text');
+  indeedText: function(){
+
+    const post = this.get('post');
+
+    // If we can't create a post, delegate to reply as new topic
+    if (!this.get('controllers.topic.model.details.can_create_post')) {
+      this.get('controllers.topic').send('replyAsNewTopic', post);
+      return;
+    }
+
+    const composerController = this.get('controllers.composer');
+    const composerOpts = {
+      action: Discourse.Composer.REPLY,
+      draftKey: this.get('post.topic.draft_key')
+    };
+
+    if(post.get('post_number') === 1) {
+      composerOpts.topic = post.get("topic");
+    } else {
+      composerOpts.post = post;
+    }
+
+    // If the composer is associated with a different post, we don't change it.
+    const composerPost = composerController.get('content.post');
+    if (composerPost && (composerPost.get('id') !== this.get('post.id'))) {
+      composerOpts.post = composerPost;
+    }
+
+    const buffer = this.get('buffer');
+    const quotedText = Discourse.Quote.build(post, buffer) + I18n.t('indeed_reply.text');
+    composerOpts.quote = quotedText;
+    if (composerController.get('content.viewOpen') || composerController.get('content.viewDraft')) {
+      composerController.appendBlockAtCursor(quotedText.trim());
+    } else {
+      composerController.open(composerOpts);
+    }
+    this.set('buffer', '');
+    return false;
   }
 });

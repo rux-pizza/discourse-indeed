@@ -3,7 +3,7 @@ import { Button }  from "discourse/views/post-menu";
 
 export default PostMenuView.reopen({
   buttonForEmptyReply: function (post, buffer) {
-    return new Button("emptyReply", I18n.t("empty_reply.action"), 'circle-o');
+    return new Button("emptyReply", "empty_reply.action", 'circle-o');
   },
 
   clickEmptyReply: function () {

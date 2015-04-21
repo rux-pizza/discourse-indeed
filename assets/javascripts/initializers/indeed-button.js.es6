@@ -1,4 +1,4 @@
-import { IndeedButtonContainerView } from "discourse/plugins/discourse-indeed/discourse/views/indeed-button-container";
+import IndeedButtonContainerView from "discourse/plugins/discourse-indeed/discourse/views/indeed-button-container";
 
 export default {
   name: "indeed-button",
