@@ -10,6 +10,10 @@
     background-color: #999;
     cursor: pointer;
   }
+  &:before{
+    font-family: "FontAwesome";
+    content: "\f087\00a0\00a0";
+  }
 }
 
 .indeed-button.visible {
