@@ -1,0 +1,7 @@
+en:
+  js:
+    indeed_reply:
+      action: "indeed"
+      text: "indeed"
+    empty_reply:
+      action: 'reply with an empty post'
