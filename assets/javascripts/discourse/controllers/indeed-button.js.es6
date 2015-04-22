@@ -61,13 +61,13 @@ export default QuoteButtonController.extend({
     // move the indeed button above the marker
     Em.run.schedule('afterRender', function() {
       let topOff = markerOffset.top;
-      let leftOff = markerOffset.left + 120;
+      let leftOff = markerOffset.left;
 
       if (Discourse.Mobile.isMobileDevice) {
-        topOff = topOff + 20;
+        topOff = topOff + 20 - $indeedButton.outerHeight() - 5;
         leftOff = Math.min(leftOff + 10, $(window).width() - $indeedButton.outerWidth());
       } else {
-        topOff = topOff - $indeedButton.outerHeight() - 5;
+        topOff = topOff - 2 * $indeedButton.outerHeight() - 5 - 5;
       }
 
       $indeedButton.offset({ top: topOff, left: leftOff });
