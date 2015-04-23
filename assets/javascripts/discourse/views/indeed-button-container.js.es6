@@ -1,15 +1,5 @@
-import TopicFooterButtonsView from "discourse/views/topic-footer-buttons";
+import TopicView from "discourse/views/topic";
 
-var IndeedButtonContainerView = Discourse.View.extend({
-  template: Em.Handlebars.compile('{{render "indeedButton"}}')
+export default TopicView.reopen({
+  templateName: "javascripts/discourse-indeed/templates/topic"
 });
-
-TopicFooterButtonsView.reopen({
-  addIndeedButton: function () {
-    if (Discourse.User.current().enable_quoting) {
-      this.attachViewClass(IndeedButtonContainerView);
-    }
-  }.on("additionalButtons")
-});
-
-export default IndeedButtonContainerView;
