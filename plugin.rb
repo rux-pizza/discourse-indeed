@@ -1,6 +1,6 @@
 # name: discourse-indeed
 # about: Indeed up anything.
-# version: 0.3
+# version: 0.3.1
 # authors: David Montoya
 
 # Indeed Button

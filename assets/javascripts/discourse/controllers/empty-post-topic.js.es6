@@ -1,5 +1,7 @@
 import topicController from 'discourse/controllers/topic';
 
+const emptyReplyText = '<span></span><span></span>';
+
 export default topicController.reopen({
 
   replyToPostWithEmptyPost: function(post) {
@@ -33,7 +35,7 @@ export default topicController.reopen({
       composerController.set('emptyReplySave', true);
 
       promise.then(function() {
-        composerController.appendText('<span></span>');
+        composerController.appendText(emptyReplyText);
       });
     }
     return false;
