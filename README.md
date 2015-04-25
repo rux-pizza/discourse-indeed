@@ -1,8 +1,8 @@
 #discourse-indeed
 
-Plugin for Discourse that features:
+Plugin for Discourse which adds the following features:
 
- - Adds an "reply with an empty post" button in the post toolbar.
+ - An "reply with an empty post" button to the post toolbar.
 
 ![empty reply button](https://discourse.rux-pizza.com/uploads/default/2810/ce8022d5166ccafc.png)
 
@@ -14,7 +14,7 @@ To enable it, be sure to add `emptyReply` to the `post menu` setting in the admi
 
 ![post menu setting](https://discourse.rux-pizza.com/uploads/default/2814/4166d17a1f7dda65.png)
 
-- Also an adds an "indeed" button next to the "quote reply" button when highlighting text on a post.
+- An "indeed" button next to the "quote reply" button when highlighting text on a post.
 
 ![indeed button](https://discourse.rux-pizza.com/uploads/default/2811/0ece16579f8106b2.png)
 
