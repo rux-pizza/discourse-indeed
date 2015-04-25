@@ -1,18 +1,19 @@
 .indeed-button {
   display: none;
   position: absolute;
-  background-color: #666;
-  color: #fff;
+  background-color: scale-color($primary, $lightness: 50%);
+  color: $secondary;
   padding: 10px;
   z-index: 401;
 
-  &:hover {
-    background-color: #999;
-    cursor: pointer;
-  }
   &:before{
     font-family: "FontAwesome";
     content: "\f087\00a0\00a0";
+  }
+
+  &:hover {
+    background-color: scale-color($primary, $lightness: 40%);
+    cursor: pointer;
   }
 }
 
