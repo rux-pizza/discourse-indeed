@@ -6,7 +6,7 @@ Plugin for Discourse which adds the following features:
 
 ![empty reply button](https://discourse.rux-pizza.com/uploads/default/2810/ce8022d5166ccafc.png)
 
-The button does what says, i.e, it instantly adds your own empty reply to the selected post.
+The button does what it says, i.e, it instantly replies to the selected post with an empty post.
 
 ![empty post](https://discourse.rux-pizza.com/uploads/default/2816/b9350ec96438ea50.png)
 
@@ -18,7 +18,7 @@ To enable it, be sure to add `emptyReply` to the `post menu` setting in the admi
 
 ![indeed button](https://discourse.rux-pizza.com/uploads/default/2811/0ece16579f8106b2.png)
 
-When pressed, it simply quote the highlighted text in a new post and add "indeed" after it.
+When pressed, it quotes the highlighted text in the composer and adds "indeed" after it.
 
 ![indeed reply](https://discourse.rux-pizza.com/uploads/default/2812/dcea13dce9c6fde0.png)
 
