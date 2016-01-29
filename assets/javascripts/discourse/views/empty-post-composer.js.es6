@@ -1,10 +1,12 @@
-import ComposerView from 'discourse/views/composer';
+import ComposerEditor from 'discourse/components/composer-editor';
 
-export default ComposerView.reopen({
+export default ComposerEditor.reopen({
   emptyReplySave: (function(){
-    var controller = this.get('controller');
+    // we use a container lookup to get a reference to the ComposerController
+    // this might break at some point
+    const controller = this.container.lookup('controller:composer');
     if(controller.get('emptyReplySave')){
-      this.get('controller').save();
+      controller.save();
       controller.set('emptyReplySave', false)
     }
   }).on("previewRefreshed")

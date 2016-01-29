@@ -1,22 +1,43 @@
-import QuoteButtonController from 'discourse/controllers/quote-button';
+import loadScript from 'discourse/lib/load-script';
+import Quote from 'discourse/lib/quote';
+import computed from 'ember-addons/ember-computed-decorators';
 
-export default QuoteButtonController.extend({
+export default Ember.Controller.extend({
+  needs: ['topic', 'composer'],
+
+  _loadSanitizer: function() {
+    loadScript('defer/html-sanitizer-bundle');
+  }.on('init'),
+
+  @computed('buffer', 'postId')
+  post(buffer, postId) {
+    if (!postId || Ember.isEmpty(buffer)) { return null; }
+
+    const postStream = this.get('controllers.topic.model.postStream');
+    const post = postStream.findLoadedPost(postId);
+
+    return post;
+  },
 
   // Save the currently selected text and displays the
   //  "indeed reply" button
-  selectText: function(postId) {
-    // anonymous users cannot "quote-reply"
+  selectText(postId) {
+    // anonymous users cannot "indeed-reply"
     if (!this.currentUser) return;
 
-    // don't display the "quote-reply" button if we can't reply
+    // don't display the "indeed-reply" button if we can't reply
     const topicDetails = this.get('controllers.topic.model.details');
     if (!(topicDetails.get('can_reply_as_new_topic') || topicDetails.get('can_create_post'))) {
       return;
     }
 
     const selection = window.getSelection();
+
     // no selections
-    if (selection.rangeCount === 0) return;
+    if (selection.isCollapsed) {
+      this.set('buffer', '');
+      return;
+    }
 
     // retrieve the selected range
     const range = selection.getRangeAt(0),
@@ -32,21 +53,20 @@ export default QuoteButtonController.extend({
     if (this.get('buffer') === selectedText) return;
 
     // we need to retrieve the post data from the posts collection in the topic controller
-    const postStream = this.get('controllers.topic.postStream');
-    this.set('post', postStream.findLoadedPost(postId));
+    this.set('postId', postId);
     this.set('buffer', selectedText);
 
     // create a marker element
     const markerElement = document.createElement("span");
     // containing a single invisible character
-    markerElement.appendChild(document.createTextNode("\u{feff}"));
+    markerElement.appendChild(document.createTextNode("\ufeff"));
 
     // collapse the range at the beginning/end of the selection
     range.collapse(!Discourse.Mobile.isMobileDevice);
     // and insert it at the start of our selection range
     range.insertNode(markerElement);
 
-    // retrieve the position of the market
+    // retrieve the position of the marker
     const markerOffset = $(markerElement).offset(),
       $indeedButton = $('.indeed-button');
 
@@ -74,9 +94,19 @@ export default QuoteButtonController.extend({
     });
   },
 
-  indeedText: function(){
-
+  indeedText() {
+    const Composer = require('discourse/models/composer').default;
+    const postId = this.get('postId');
     const post = this.get('post');
+
+    // defer load if needed, if in an expanded replies section
+    if (!post) {
+      const postStream = this.get('controllers.topic.model.postStream');
+      return postStream.loadPost(postId).then(p => {
+        this.set('post', p);
+        return this.indeedText();
+      });
+    }
 
     // If we can't create a post, delegate to reply as new topic
     if (!this.get('controllers.topic.model.details.can_create_post')) {
@@ -86,11 +116,11 @@ export default QuoteButtonController.extend({
 
     const composerController = this.get('controllers.composer');
     const composerOpts = {
-      action: Discourse.Composer.REPLY,
-      draftKey: this.get('post.topic.draft_key')
+      action: Composer.REPLY,
+      draftKey: post.get('topic.draft_key')
     };
 
-    if(post.get('post_number') === 1) {
+    if (post.get('post_number') === 1) {
       composerOpts.topic = post.get("topic");
     } else {
       composerOpts.post = post;
@@ -103,14 +133,23 @@ export default QuoteButtonController.extend({
     }
 
     const buffer = this.get('buffer');
-    const quotedText = Discourse.Quote.build(post, buffer) + I18n.t('indeed_reply.text');
+    const quotedText = Quote.build(post, buffer) + I18n.t('indeed_reply.text');
+
     composerOpts.quote = quotedText;
     if (composerController.get('content.viewOpen') || composerController.get('content.viewDraft')) {
-      composerController.appendBlockAtCursor(quotedText.trim());
+      this.appEvents.trigger('composer:insert-text', quotedText.trim());
     } else {
       composerController.open(composerOpts);
     }
     this.set('buffer', '');
     return false;
+  },
+
+  deselectText() {
+    // clear selected text
+    window.getSelection().removeAllRanges();
+    // clean up the buffer
+    this.set('buffer', '');
   }
+
 });
