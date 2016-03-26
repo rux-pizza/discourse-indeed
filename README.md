@@ -22,6 +22,8 @@ When pressed, it quotes the highlighted text in the composer and adds "indeed" a
 
 ![indeed reply](https://discourse.rux-pizza.com/uploads/default/2812/dcea13dce9c6fde0.png)
 
+Compatible with Discourse v1.5.0.beta13 or greater, uses Plugin-API 0.1.
+
 ##Installation
 
 * Add the plugin's repo url to your container's `app.yml` file
