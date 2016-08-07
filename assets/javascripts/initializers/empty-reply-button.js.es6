@@ -26,7 +26,7 @@ export default {
   name: 'discourse-indeed',
 
   initialize: function (container) {
-    withPluginApi('0.1', api => initializePlugin(api));
+    withPluginApi('0.5', initializePlugin);
   }
 };
 
