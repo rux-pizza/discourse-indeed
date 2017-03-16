@@ -1,4 +1,4 @@
 {{partial "topic"}}
 {{#if currentUser.enable_quoting}}
-  {{render "indeed-button"}}
+  {{indeed-button quoteState=indeedState selectText=(action "indeedText")}}
 {{/if}}
