@@ -1,5 +1,6 @@
-import EmptyPostTopicController from "discourse/plugins/discourse-indeed/discourse/controllers/empty-post-topic";
-import EmptyPostComposerView from "discourse/plugins/discourse-indeed/discourse/views/empty-post-composer";
+import ComposerEditorComponent from "../discourse-indeed/components/composer-editor";
+import TopicController from "../discourse-indeed/controllers/topic";
+import TopicRoute from "../discourse-indeed/routes/topic";
 
 import { withPluginApi } from 'discourse/lib/plugin-api';
 
@@ -17,8 +18,8 @@ function initializePlugin(api){
   );
   api.attachWidgetAction('post-menu', 'emptyReply', function(){
     const topicController = this.container.lookup('controller:topic');
-    const post = topicController.get('model.postStream.posts').findBy('post_number', this.attrs.post_number);
-    topicController.replyToPostWithEmptyPost(post);
+    const post = topicController.get('model.postStream').findLoadedPost(this.attrs.reply_to_post_number);
+    topicController.send('replyToPostWithEmptyPost', post);
   });
 }
 
